@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { fetchPokemon, editPokemon, removePokemon } from '../../domain/usecases/pokemon.usecase';
+import { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import { fetchPokemon } from '../../domain/usecases/pokemon.usecase';
 import { Pokemon } from '../../domain/entities/Pokemon';
+import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 
-const PokemonDetail: React.FC = () => {
+const PokemonDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-  const [name, setName] = useState('');
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -15,48 +14,127 @@ const PokemonDetail: React.FC = () => {
       if (id) {
         const data = await fetchPokemon(name);
         setPokemon(data);
-        setName(data.name);
       }
     };
 
     getPokemon(location.pathname.split('/')[2] || '');
   }, [id]);
 
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pokemon) {
-      const updatedPokemon = { ...pokemon, name };
-      await editPokemon(updatedPokemon);
-      navigate('/');
-    }
-  };
-
-  const handleDelete = async () => {
-    if (pokemon) {
-    //   await removePokemon(pokemon.id);
-      navigate('/');
-    }
-  };
-
-  if (!pokemon) return <div>Cargando...</div>;
+  if (!pokemon) return <div className="flex h-screen items-center justify-center text-lg">Cargando...</div>;
 
   return (
-    <div>
-      <h1>Detalle de {pokemon.name}</h1>
-      <form onSubmit={handleUpdate}>
-        <label>
-          Nombre:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+    <div className="flex h-screen items-center justify-center px-4">
+      <Card className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white rounded-3xl shadow-md border border-gray-200 p-4">
+        
+
+        <CardHeader className="flex flex-col items-center justify-center gap-2">
+          <h5 className="text-sm font-bold text-gray-600">PC: {pokemon.base_experience || "Desconocido"}</h5>
+          <Image
+            isZoomed
+            width={150}
+
+            src={pokemon.sprites?.other?.showdown?.front_default || "https://heroui.com/avatars/avatar-1.png"}
           />
-        </label>
-        <button type="submit">Actualizar</button>
-      </form>
-      <button onClick={handleDelete}>Eliminar</button>
+          <h4 className="text-2xl font-bold text-gray-700">{pokemon.name?.toUpperCase() || "Desconocido"}</h4>
+        </CardHeader>
+
+        <CardBody className="flex flex-row items-start justify-between px-4 md:px-10">
+          <div className="flex flex-col items-center">
+            <h2 className="text-sm md:text-lg font-semibold">{pokemon.height ? `${pokemon.height / 10} m` : "N/A"}</h2>
+            <h5 className="text-gray-500 font-medium">Altura</h5>
+          </div>
+          <div className="flex flex-col items-center">
+            <h2 className="text-sm md:text-lg font-semibold">{pokemon.weight ? `${pokemon.weight / 10} kg` : "N/A"}</h2>
+            <h5 className="text-gray-500 font-medium">Peso</h5>
+          </div>
+        </CardBody>
+
+        <div className="flex flex-col gap-4 mt-3">
+          <h5 className="text-lg font-bold text-center text-gray-700">Habilidades</h5>
+          <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
+            {pokemon.abilities?.length > 0 ? (
+              pokemon.abilities.map((abilityObj) => (
+                <span key={abilityObj.ability.name} className="bg-yellow-400 text-white px-3 py-1 rounded-lg shadow-md text-sm md:text-base">
+                  {abilityObj.ability.name.toUpperCase()}
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-500 text-sm">No disponible</span>
+            )}
+          </div>
+
+          <h5 className="text-lg font-bold text-center text-gray-700">Tipo</h5>
+          <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
+            {pokemon.types?.length > 0 ? (
+              pokemon.types.map((typeObj) => (
+                <span key={typeObj.type.name} className={`px-3 py-1 rounded-lg shadow-md text-sm md:text-base ${getTypeColor(typeObj.type.name)}`}>
+                  {typeObj.type.name.toUpperCase()}
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-500 text-sm">No disponible</span>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-4 px-4 md:px-5">
+          <h5 className="text-lg font-bold text-center text-gray-700">Estadísticas Base</h5>
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            {pokemon.stats?.length > 0 ? (
+              pokemon.stats.map((stat) => (
+                <div key={stat.stat.name} className="flex justify-between bg-gray-100 rounded-lg px-3 py-1 text-sm md:text-base">
+                  <span className="text-gray-600 font-semibold">{stat.stat.name.toUpperCase()}</span>
+                  <span className="font-bold">{stat.base_stat}</span>
+                </div>
+              ))
+            ) : (
+              <span className="text-gray-500 text-sm text-center">No disponible</span>
+            )}
+          </div>
+        </div>
+
+
+        <div className="mt-4 px-4 md:px-5 pb-5">
+          <h5 className="text-lg font-bold text-center text-gray-700">Movimientos</h5>
+          <div className="flex flex-wrap gap-2 justify-center mt-2">
+            {pokemon.moves?.length > 0 ? (
+              pokemon.moves.slice(0, 4).map((move) => (
+                <span key={move.move.name} className="bg-blue-500 text-white px-3 py-1 rounded-lg shadow-md text-sm md:text-base">
+                  {move.move.name.replace("-", " ").toUpperCase()}
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-500 text-sm">No disponible</span>
+            )}
+          </div>
+        </div>
+      </Card>
     </div>
   );
+};
+
+const getTypeColor = (type: string) => {
+  const colors: Record<string, string> = {
+    fire: "bg-red-500 text-white",
+    water: "bg-blue-500 text-white",
+    grass: "bg-green-500 text-white",
+    poison: "bg-purple-500 text-white",
+    electric: "bg-yellow-500 text-black",
+    ground: "bg-yellow-700 text-white",
+    flying: "bg-indigo-500 text-white",
+    psychic: "bg-pink-500 text-white",
+    rock: "bg-gray-500 text-white",
+    bug: "bg-green-700 text-white",
+    dragon: "bg-purple-800 text-white",
+    dark: "bg-gray-900 text-white",
+    steel: "bg-gray-400 text-white",
+    fairy: "bg-pink-300 text-white",
+    ghost: "bg-indigo-900 text-white",
+    fighting: "bg-red-800 text-white",
+    ice: "bg-blue-300 text-black",
+    normal: "bg-gray-400 text-white"
+  };
+  return colors[type] || "bg-gray-500 text-white";
 };
 
 export default PokemonDetail;
