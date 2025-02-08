@@ -4,12 +4,12 @@ import { Pokemon } from '../domain/entities/Pokemon';
 const API_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 export const getPokemonList = async (): Promise<Pokemon[]> => {
-  const response = await axios.get(`${API_URL}`);
+  const response = await axios.get(`${API_URL}?limit=35`);
   return response.data.results;
 };
 
-export const getPokemonById = async (id: number): Promise<Pokemon> => {
-  const response = await axios.get(`${API_URL}/${id}`);
+export const getPokemonByKey = async (key: string): Promise<Pokemon> => {
+  const response = await axios.get(`${API_URL}/${key}`);
   return response.data;
 };
 

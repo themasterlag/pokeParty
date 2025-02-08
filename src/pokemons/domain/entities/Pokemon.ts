@@ -10,7 +10,9 @@ export interface Pokemon {
     is_default: boolean;
     location_area_encounters: string;
     moves: Move[];
+    url: string;
     name: string;
+    sprites: any;
   }
   
   export interface AbilitySlot {
