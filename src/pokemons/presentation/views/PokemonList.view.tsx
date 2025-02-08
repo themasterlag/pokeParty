@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { fetchPokemonList } from '../../domain/usecases/pokemon.usecase';
 import { Pokemon } from '../../domain/entities/Pokemon';
-import { Button, Card, CardBody, CardHeader, Image, Listbox, ListboxItem, Skeleton } from '@heroui/react';
+import { Button, Card, CardBody, CardHeader, Image, Skeleton } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
 
 
