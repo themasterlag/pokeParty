@@ -10,16 +10,17 @@ import {
 } from "../datasource/pokemon.service";
 
 export default class PokemonRepositoryImpl implements PokemonRepository {
-  async getPokemonList(): Promise<Pokemon[]> {
-    const response: Pokemon[] = await getPokemonList();
-    const pokemonList: Pokemon[] = [];
-
-
-    for (let i = 0; i < response.length; i++) {
-      const encontrado = await this.getPokemon(String(response[i].id));
-      pokemonList.push(encontrado);
-    };
-    return pokemonList;
+  async getPokemonList(limit: number, name?: string): Promise<Pokemon[]> {
+    const pokemonList: Pokemon[] = (await getPokemonList(limit)).filter(
+      (pokemon) => (name ? pokemon.name.includes(name) : pokemon)
+    );
+    
+    const results = [];
+    for (let i = 0; i < pokemonList.length; i++) {
+      const encontrado = await this.getPokemon(pokemonList[i].name);
+      results.push(encontrado);
+    }
+    return results;
   }
   async getPokemon(key: string): Promise<Pokemon> {
     return await getPokemonByKey(key);
