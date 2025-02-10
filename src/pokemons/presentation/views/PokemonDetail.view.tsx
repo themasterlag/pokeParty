@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { fetchPokemon } from '../../domain/usecases/pokemon.usecase';
-import Pokemon from '../../domain/entities/domain.pokemon.entity';
+import Pokemon from '../../domain/domain.pokemon.entity';
 import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 
 
