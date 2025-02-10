@@ -1,7 +1,7 @@
 import Pokemon from './domain.pokemon.entity';
 
 import PokemonRepository from './domain.pokemon.repository';
-import PokemonRepositoryImpl from '../data/repos/pokemon.repository';
+import PokemonRepositoryImpl from '../data/data.pokemon.repository.impl';
 
 const pokemonRepo: PokemonRepository = new PokemonRepositoryImpl();
 export const fetchPokemonList = async (limit: number=35): Promise<Pokemon[]> => await pokemonRepo.getPokemonList(limit);

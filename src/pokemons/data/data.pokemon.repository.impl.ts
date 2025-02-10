@@ -1,5 +1,5 @@
-import Pokemon from "../../domain/domain.pokemon.entity";
-import PokemonRepository from "../../domain/domain.pokemon.repository";
+import Pokemon from "../domain/domain.pokemon.entity";
+import PokemonRepository from "../domain/domain.pokemon.repository";
 
 import {
   getPokemonList,
@@ -7,7 +7,7 @@ import {
   createPokemon,
   updatePokemon,
   deletePokemon,
-} from "../datasource/pokemon.service";
+} from "./data.pokemon.datasource.api";
 
 export default class PokemonRepositoryImpl implements PokemonRepository {
   async getPokemonList(limit: number, name?: string): Promise<Pokemon[]> {
