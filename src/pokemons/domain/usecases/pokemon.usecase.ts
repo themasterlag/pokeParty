@@ -1,16 +1,21 @@
 import { Pokemon } from '../entities/Pokemon';
 import { getPokemonList, getPokemonByKey, createPokemon, updatePokemon, deletePokemon } from '../../data/pokemon.service';
 
-export const fetchPokemonList = async (): Promise<Pokemon[]> => {
-  let response: Pokemon[] = await getPokemonList()
-  let pokemonList: Pokemon[] = [];
+export const fetchPokemonList = async (limit: number=35): Promise<Pokemon[]> => {
+  let response: Pokemon[] = await getPokemonList(limit)
+  return response;
+};
 
-  for (let i = 0; i < response.length; i++) {
-    let encontrado = await fetchPokemon(response[i].name);
-    pokemonList.push(encontrado);
+export const filterPokemonList = async (name?: string, limit: number=35): Promise<Pokemon[]> => {
+  let pokemonList: Pokemon[] = (await getPokemonList(name?limit:35)).filter( (pokemon) => name ? pokemon.name.includes(name): pokemon);
+
+  let results = [];
+  for (let i = 0; i < pokemonList.length; i++) {
+    let encontrado = await fetchPokemon(pokemonList[i].name);
+    results.push(encontrado);
   };
 
-  return pokemonList;
+  return results;
 };
 
 export const fetchPokemon = async (key: number|string): Promise<Pokemon> => {

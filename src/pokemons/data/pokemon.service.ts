@@ -3,8 +3,8 @@ import { Pokemon } from '../domain/entities/Pokemon';
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon';
 
-export const getPokemonList = async (): Promise<Pokemon[]> => {
-  const response = await axios.get(`${API_URL}?limit=35`);
+export const getPokemonList = async (limit: number = 35): Promise<Pokemon[]> => {
+  const response = await axios.get(`${API_URL}?limit=${limit}`);
   return response.data.results;
 };
 
