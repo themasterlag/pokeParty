@@ -1,7 +1,7 @@
 // src/presentation/components/AddPokemon.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addPokemon } from '../../domain/usecases/pokemon.usecase';
+import { addPokemon } from '../../domain/pokemon.usecase';
 import Pokemon from '../../domain/domain.pokemon.entity';
 
 const AddPokemon = () => {

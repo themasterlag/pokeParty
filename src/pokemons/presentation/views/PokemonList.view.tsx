@@ -1,6 +1,6 @@
 // src/presentation/components/PokemonList.tsx
 import { useEffect, useState } from 'react';
-import { filterPokemonList } from '../../domain/usecases/pokemon.usecase';
+import { filterPokemonList } from '../../domain/pokemon.usecase';
 import Pokemon from '../../domain/domain.pokemon.entity';
 import {  Button, Card, CardBody, CardHeader, Image, Input } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
