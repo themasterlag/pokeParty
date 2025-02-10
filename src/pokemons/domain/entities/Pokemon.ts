@@ -11,6 +11,9 @@ export interface Pokemon {
     location_area_encounters: string;
     moves: Move[];
     url: string;
+    weight: number;
+    types: any[]; 
+    stats: any[];
     name: string;
     sprites: any;
   }
