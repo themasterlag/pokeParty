@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { fetchPokemon } from '../../domain/usecases/pokemon.usecase';
 import { Pokemon } from '../../domain/entities/Pokemon';
 import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 
+
 const PokemonDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const location = useLocation();
@@ -25,18 +27,44 @@ const PokemonDetail = () => {
   return (
     <div className="flex h-screen items-center justify-center px-4">
       <Card className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white rounded-3xl shadow-md border border-gray-200 p-4">
-        
 
         <CardHeader className="flex flex-col items-center justify-center gap-2">
-          <h5 className="text-sm font-bold text-gray-600">PC: {pokemon.base_experience || "Desconocido"}</h5>
+          <div className="flex items-center justify-between w-full">
+            <button className="button" onClick={() => navigate('/')}>
+              <div className="button-box">
+                <span className="button-elem">
+                  <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                  </svg>
+                </span>
+                <span className="button-elem">
+                  <svg viewBox="0 0 46 40">
+                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                  </svg>
+                </span>
+              </div>
+            </button>
+
+            <h2 className="flex-1 text-center text-sm font-bold text-gray-600">
+              PC: {pokemon.base_experience || "Desconocido"}
+            </h2>
+
+            <div className="w-10"></div>
+          </div>
+
           <Image
             isZoomed
             width={150}
-
-            src={pokemon.sprites?.other?.showdown?.front_default || "https://heroui.com/avatars/avatar-1.png"}
+            src={
+              pokemon.sprites?.other?.showdown?.front_default
+            }
           />
-          <h4 className="text-2xl font-bold text-gray-700">{pokemon.name?.toUpperCase() || "Desconocido"}</h4>
+
+          <h1 className="text-2xl font-bold text-gray-700">
+            {pokemon.name?.toUpperCase() || "Desconocido"}
+          </h1>
         </CardHeader>
+
 
         <CardBody className="flex flex-row items-start justify-between px-4 md:px-10">
           <div className="flex flex-col items-center">
