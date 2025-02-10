@@ -1,4 +1,4 @@
-import Pokemon from "../domain.pokemon.entity";
+import Pokemon from "./domain.pokemon.entity";
 
 export default interface PokemonRepository {
   getPokemonList(): Promise<Pokemon[]>;
