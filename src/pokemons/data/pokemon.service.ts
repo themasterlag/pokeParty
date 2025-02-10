@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Pokemon } from '../domain/entities/Pokemon';
+import { Pokemon } from '../domain/entities/domain.pokemon.entity';
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon';
 

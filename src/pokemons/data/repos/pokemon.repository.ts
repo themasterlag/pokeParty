@@ -1,4 +1,4 @@
-import Pokemon from "../../domain/entities/Pokemon";
+import Pokemon from "../../domain/entities/domain.pokemon.entity";
 import PokemonRepository from "../../domain/repos/pokemon.repository";
 
 import {

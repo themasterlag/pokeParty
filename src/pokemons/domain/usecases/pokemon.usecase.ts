@@ -1,4 +1,4 @@
-import Pokemon from '../entities/Pokemon';
+import Pokemon from '../entities/domain.pokemon.entity';
 // import PokemonRepository from '../repos/pokemon.repository';
 // import PokemonRepositoryImpl from '../../data/repos/pokemon.repository';
 import { getPokemonList, getPokemonByKey, createPokemon, updatePokemon, deletePokemon } from '../../data/pokemon.service';
