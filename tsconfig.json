@@ -1,4 +1,5 @@
 {
+  "ts-node": {"esm": true},
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

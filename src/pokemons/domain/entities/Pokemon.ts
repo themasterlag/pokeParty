@@ -1,4 +1,5 @@
-export interface Pokemon {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export default interface Pokemon {
     abilities: AbilitySlot[];
     base_experience: number;
     cries: Cries;
