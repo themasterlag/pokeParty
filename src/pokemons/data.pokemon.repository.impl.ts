@@ -11,7 +11,7 @@ import {
 
 export default class PokemonRepositoryImpl implements PokemonRepository {
   async getPokemonList(limit: number, name?: string): Promise<Pokemon[]> {
-    const pokemonList: Pokemon[] = (await getPokemonList(limit)).filter(
+    const pokemonList: Pokemon[] = (await getPokemonList( limit)).filter(
       (pokemon) => (name ? pokemon.name.includes(name) : pokemon)
     );
     

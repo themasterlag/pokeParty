@@ -35,68 +35,48 @@ export default function PokemonList() {
     return (
         <div>
             <Card className='w-2/3 mx-auto mt-10'>
-                <Header />
+                <CardHeader>
+                    <div className='w-full flex'>
+                        <span className='text-2xl font-bold text-center text-pink-600 ml-auto mr-auto'>
+                            Lista Pokemons
+                        </span>
+                    </div>
+                </CardHeader>
                 <CardBody>
-                    <CommandBar
-                        onPressFiltrar={() => filterPokemon(nameFilter)}
-                        onPressActualizar={() => getPokemonList()}
-                        onInputChange={(value: string) => setNameFilter(value)} />
+
+                    <div className="flex wrap justify-center mb-5 gap-3">
+                        <Input
+                            label='Buscar Pokémon'
+                            placeholder='Nombre del Pokémon'
+                            className='w-2/4'
+                            variant='faded'
+                            onValueChange={(e) => setNameFilter(e)}
+                            onKeyDown={(e) => e.key === "Enter" ? filterPokemon(nameFilter) : null}
+                        />
+                        <Button className='text-2xl h-100' color='warning' onPress={() => filterPokemon(nameFilter)}>
+                            🔎
+                        </Button>
+                        <Button className='h-100' color='success' onPress={getPokemonList}>
+                            <strong>Actualizar</strong>
+                        </Button>
+                    </div>
+
+
                     <div className='flex flex-wrap justify-center gap-8'>
-                        {loading
-                            ? (<>{Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))}</>)
-                            : (
-                                <>{
-                                    pokemonList.map((pokemon) => (
-                                        <PokemonCard pokemon={pokemon} onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }} />
-                                    ))
-                                }</>
-                            )
+                        {
+                            loading ?
+                                Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))
+                                :
+                                pokemonList.map((pokemon) => (
+                                    <PokemonCard pokemon={pokemon} onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }} />
+                                ))
                         }
                     </div>
                 </CardBody>
             </Card>
-        </div>
+        </div >
     );
 };
-
-const Header = () => {
-    return (
-        <CardHeader>
-            <div className='w-full flex'>
-                <span className='text-2xl font-bold text-center text-pink-600 ml-auto mr-auto'>
-                    Lista Pokemons
-                </span>
-            </div>
-        </CardHeader>)
-}
-
-const CommandBar = (
-    {
-        onPressActualizar,
-        onPressFiltrar,
-        onInputChange
-    }: {
-        onPressActualizar: (() => void),
-        onPressFiltrar: (() => void),
-        onInputChange: ((value: string) => void)
-    }) => {
-    return (<div className="flex wrap justify-center mb-5 gap-3">
-        <Input
-            label='Buscar Pokémon'
-            placeholder='Nombre del Pokémon'
-            className='w-2/4'
-            variant='faded'
-            onValueChange={onInputChange}
-            onKeyDown={(e) => e.key === "Enter" ? onPressFiltrar() : null}
-            />
-        <Button className='text-2xl h-100' color='warning' onPress={onPressFiltrar}>
-            🔎
-        </Button>
-        <Button className='h-100' color='success' onPress={onPressActualizar}>
-            <strong>Actualizar</strong>
-        </Button>
-    </div>)
-}
 
 const PokemonCard = ({ pokemon, onPress }: { pokemon: Pokemon, onPress: (() => void) }) => {
     return (
@@ -113,5 +93,6 @@ const PokemonCard = ({ pokemon, onPress }: { pokemon: Pokemon, onPress: (() => v
                     <Image src={pokemon.sprites.other.home.front_default ?? pokemon.sprites.other.dream_world.front_default ?? pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} isBlurred />
                 </div>
             </CardBody>
-        </Card>)
+        </Card>
+    )
 }
