@@ -56,14 +56,16 @@ export default function PokemonList() {
                         </Button>
                     </div>
                     <div className='flex flex-wrap justify-center gap-8'>
-                        {loading ? (<>{Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))}</>) : (
-                            <>{
-                                pokemonList.map((pokemon) => (
-                                    <PokemonCard
-                                        pokemon={pokemon}
-                                        onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }} />
-                                ))}
-                            </>)}
+                        {loading
+                            ? (<>{Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))}</>)
+                            : (
+                                <>{
+                                    pokemonList.map((pokemon) => (
+                                        <PokemonCard pokemon={pokemon} onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }} />
+                                    ))
+                                }</>
+                            )
+                        }
                     </div>
                 </CardBody>
             </Card>
