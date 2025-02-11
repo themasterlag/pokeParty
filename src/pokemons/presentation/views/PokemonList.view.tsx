@@ -37,24 +37,10 @@ export default function PokemonList() {
             <Card className='w-2/3 mx-auto mt-10'>
                 <Header />
                 <CardBody>
-                    <div className="flex wrap justify-center mb-5 gap-3">
-                        <Input
-                            className='w-2/4'
-                            label='Buscar Pokémon'
-                            placeholder='Nombre del Pokémon'
-                            variant='faded'
-                            onValueChange={(e) => setNameFilter(e)}
-                            onKeyDown={(e) => e.key === "Enter" ? filterPokemon(nameFilter) : null}
-                        />
-                        <Button className='text-2xl h-100' color='warning' onPress={() => filterPokemon(nameFilter)}>
-                            🔎
-                        </Button>
-                        <Button className='h-100' color='success' onPress={() => getPokemonList()}>
-                            <strong>
-                                Actualizar
-                            </strong>
-                        </Button>
-                    </div>
+                    <CommandBar
+                        onPressFiltrar={() => filterPokemon(nameFilter)}
+                        onPressActualizar={() => getPokemonList()}
+                        onInputChange={(value: string) => setNameFilter(value)} />
                     <div className='flex flex-wrap justify-center gap-8'>
                         {loading
                             ? (<>{Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))}</>)
@@ -82,6 +68,34 @@ const Header = () => {
                 </span>
             </div>
         </CardHeader>)
+}
+
+const CommandBar = (
+    {
+        onPressActualizar,
+        onPressFiltrar,
+        onInputChange
+    }: {
+        onPressActualizar: (() => void),
+        onPressFiltrar: (() => void),
+        onInputChange: ((value: string) => void)
+    }) => {
+    return (<div className="flex wrap justify-center mb-5 gap-3">
+        <Input
+            label='Buscar Pokémon'
+            placeholder='Nombre del Pokémon'
+            className='w-2/4'
+            variant='faded'
+            onValueChange={onInputChange}
+            onKeyDown={(e) => e.key === "Enter" ? onPressFiltrar() : null}
+            />
+        <Button className='text-2xl h-100' color='warning' onPress={onPressFiltrar}>
+            🔎
+        </Button>
+        <Button className='h-100' color='success' onPress={onPressActualizar}>
+            <strong>Actualizar</strong>
+        </Button>
+    </div>)
 }
 
 const PokemonCard = ({ pokemon, onPress }: { pokemon: Pokemon, onPress: (() => void) }) => {
