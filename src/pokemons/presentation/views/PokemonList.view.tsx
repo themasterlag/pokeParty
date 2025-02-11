@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { filterPokemonList } from '../../domain/domain.pokemon.usecase';
 import Pokemon from '../../domain/domain.pokemon.entity';
-import {  Button, Card, CardBody, CardHeader, Image, Input } from '@heroui/react';
+import { Button, Card, CardBody, CardHeader, Image, Input } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
 import { SkeletonLoader } from '../../../core/components/skeletonLoader';
 
@@ -10,17 +10,17 @@ export default function PokemonList() {
     const navigate = useNavigate();
     const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState(true);
-    const [nameFilter, setNameFilter ] = useState("");
+    const [nameFilter, setNameFilter] = useState("");
 
     const getPokemonList = async () => {
         setLoading(true);
         setPokemonList(await filterPokemonList());
         setLoading(false);
     };
-    
+
     const filterPokemon = async (name: string) => {
         setLoading(true);
-        setPokemonList(await filterPokemonList(name,5000));
+        setPokemonList(await filterPokemonList(name, 5000));
         setLoading(false);
     };
 
@@ -55,18 +55,11 @@ export default function PokemonList() {
                             </strong>
                         </Button>
                     </div>
-                    {
-                        loading ? (
-                            <div className='flex flex-wrap justify-center gap-8'>
-                                {
-                                    Array.from({ length: 9 }).map((_) => (
-                                        <SkeletonLoader />
-                                    ))
-                                }
-                            </div>
-                        ) :
-
-                            (<div className='flex flex-wrap justify-center gap-8'>
+                    <div className='flex flex-wrap justify-center gap-8'>
+                        {loading ? (<>{
+                            Array.from({ length: 9 }).map((_) => (
+                                <SkeletonLoader />
+                            ))}</>) : (<>
                                 {pokemonList.map((pokemon) => (
                                     <Card isPressable
                                         className='p-2 w-1/4 hover:scale-105 hover:shadow-lg hover:shadow-gray-500 hover:cursor-pointer hover:text-blue-400'
@@ -82,10 +75,8 @@ export default function PokemonList() {
                                             </div>
                                         </CardBody>
                                     </Card>
-                                ))}
-                            </div>)
-                    }
-
+                                ))}</>)}
+                    </div>
                 </CardBody>
             </Card>
         </div>
