@@ -4,8 +4,7 @@ import { fetchPokemon } from '../../domain/domain.pokemon.usecase';
 import Pokemon from '../../domain/domain.pokemon.entity';
 import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 
-
-const PokemonDetail = () => {
+export default function PokemonDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -121,25 +120,29 @@ const PokemonDetail = () => {
           </div>
         </div>
 
-
-        <div className="mt-4 px-4 md:px-5 pb-5">
-          <h5 className="text-lg font-bold text-center text-gray-700">Movimientos</h5>
-          <div className="flex flex-wrap gap-2 justify-center mt-2">
-            {pokemon.moves?.length > 0 ? (
-              pokemon.moves.slice(0, 4).map((move) => (
-                <span key={move.move.name} className="bg-blue-500 text-white px-3 py-1 rounded-lg shadow-md text-sm md:text-base">
-                  {move.move.name.replace("-", " ").toUpperCase()}
-                </span>
-              ))
-            ) : (
-              <span className="text-gray-500 text-sm">No disponible</span>
-            )}
-          </div>
-        </div>
+        <MovimientosSection pokemon={pokemon}/>
       </Card>
     </div>
   );
 };
+
+const MovimientosSection = ({ pokemon }: { pokemon: Pokemon }) => {
+  return (
+    <div className="mt-4 px-4 md:px-5 pb-5">
+      <h5 className="text-lg font-bold text-center text-gray-700">Movimientos</h5>
+      <div className="flex flex-wrap gap-2 justify-center mt-2">
+        {pokemon.moves?.length > 0 ? (
+          pokemon.moves.slice(0, 4).map((move) => (
+            <span key={move.move.name} className="bg-blue-500 text-white px-3 py-1 rounded-lg shadow-md text-sm md:text-base">
+              {move.move.name.replace("-", " ").toUpperCase()}
+            </span>
+          ))
+        ) : (
+          <span className="text-gray-500 text-sm">No disponible</span>
+        )}
+      </div>
+    </div>)
+}
 
 const getTypeColor = (type: string) => {
   const colors: Record<string, string> = {
@@ -164,5 +167,3 @@ const getTypeColor = (type: string) => {
   };
   return colors[type] || "bg-gray-500 text-white";
 };
-
-export default PokemonDetail;
