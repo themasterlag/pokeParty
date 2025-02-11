@@ -1,5 +1,5 @@
-import Pokemon from "../domain/domain.pokemon.entity";
-import PokemonRepository from "../domain/domain.pokemon.repository";
+import Pokemon from "./domain.pokemon.entity";
+import PokemonRepository from "./domain.pokemon.repository";
 
 import {
   getPokemonList,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { fetchPokemon } from '../../domain/domain.pokemon.usecase';
-import Pokemon from '../../domain/domain.pokemon.entity';
+import { fetchPokemon } from './domain.pokemon.usecase';
+import Pokemon from './domain.pokemon.entity';
 import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 
 export default function PokemonDetail() {
