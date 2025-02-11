@@ -6,7 +6,7 @@ import {  Button, Card, CardBody, CardHeader, Image, Input } from '@heroui/react
 import { useNavigate } from 'react-router-dom';
 import { SkeletonLoader } from '../../../core/components/skeletonLoader';
 
-const PokemonList = () => {
+export default function PokemonList() {
     const navigate = useNavigate();
     const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState(true);
@@ -35,22 +35,16 @@ const PokemonList = () => {
     return (
         <div>
             <Card className='w-2/3 mx-auto mt-10'>
-                <CardHeader>
-                    <div className='w-full flex'>
-                        <span className='text-2xl font-bold text-center text-pink-600 ml-auto mr-auto'>
-                            Lista Pokemons
-                        </span>
-                    </div>
-                </CardHeader>
+                <Header />
                 <CardBody>
                     <div className="flex wrap justify-center mb-5 gap-3">
                         <Input
                             className='w-2/4'
                             label='Buscar Pokémon'
-                            placeholder='Nombre del Pokémon' 
+                            placeholder='Nombre del Pokémon'
                             variant='faded'
                             onValueChange={(e) => setNameFilter(e)}
-                            onKeyDown={(e)=> e.key === "Enter"?filterPokemon(nameFilter):null}
+                            onKeyDown={(e) => e.key === "Enter" ? filterPokemon(nameFilter) : null}
                         />
                         <Button className='text-2xl h-100' color='warning' onPress={() => filterPokemon(nameFilter)}>
                             🔎
@@ -58,7 +52,7 @@ const PokemonList = () => {
                         <Button className='h-100' color='success' onPress={() => getPokemonList()}>
                             <strong>
                                 Actualizar
-                            </strong> 
+                            </strong>
                         </Button>
                     </div>
                     {
@@ -72,7 +66,7 @@ const PokemonList = () => {
                             </div>
                         ) :
 
-                            (<div className='flex flex-wrap justify-center gap-8'>              
+                            (<div className='flex flex-wrap justify-center gap-8'>
                                 {pokemonList.map((pokemon) => (
                                     <Card isPressable
                                         className='p-2 w-1/4 hover:scale-105 hover:shadow-lg hover:shadow-gray-500 hover:cursor-pointer hover:text-blue-400'
@@ -84,7 +78,7 @@ const PokemonList = () => {
                                         </CardHeader>
                                         <CardBody>
                                             <div className='flex justify-center'>
-                                                <Image src={pokemon.sprites.other.home.front_default??pokemon.sprites.other.dream_world.front_default??pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} isBlurred />
+                                                <Image src={pokemon.sprites.other.home.front_default ?? pokemon.sprites.other.dream_world.front_default ?? pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} isBlurred />
                                             </div>
                                         </CardBody>
                                     </Card>
@@ -94,11 +88,17 @@ const PokemonList = () => {
 
                 </CardBody>
             </Card>
-
-
-
         </div>
     );
 };
 
-export default PokemonList;
+const Header = () => {
+    return (
+        <CardHeader>
+            <div className='w-full flex'>
+                <span className='text-2xl font-bold text-center text-pink-600 ml-auto mr-auto'>
+                    Lista Pokemons
+                </span>
+            </div>
+        </CardHeader>)
+}
