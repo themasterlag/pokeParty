@@ -56,26 +56,14 @@ export default function PokemonList() {
                         </Button>
                     </div>
                     <div className='flex flex-wrap justify-center gap-8'>
-                        {loading ? (<>{
-                            Array.from({ length: 9 }).map((_) => (
-                                <SkeletonLoader />
-                            ))}</>) : (<>
-                                {pokemonList.map((pokemon) => (
-                                    <Card isPressable
-                                        className='p-2 w-1/4 hover:scale-105 hover:shadow-lg hover:shadow-gray-500 hover:cursor-pointer hover:text-blue-400'
-                                        onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }}>
-                                        <CardHeader>
-                                            <span className='text-2xl font-bold ml-auto mr-auto capitalize'>
-                                                {pokemon.name}
-                                            </span>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className='flex justify-center'>
-                                                <Image src={pokemon.sprites.other.home.front_default ?? pokemon.sprites.other.dream_world.front_default ?? pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} isBlurred />
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                ))}</>)}
+                        {loading ? (<>{Array.from({ length: 9 }).map((_) => (<SkeletonLoader />))}</>) : (
+                            <>{
+                                pokemonList.map((pokemon) => (
+                                    <PokemonCard
+                                        pokemon={pokemon}
+                                        onPress={() => { playCrie(pokemon.cries.latest); navigate(`/pokemon/${pokemon.name}`) }} />
+                                ))}
+                            </>)}
                     </div>
                 </CardBody>
             </Card>
@@ -92,4 +80,22 @@ const Header = () => {
                 </span>
             </div>
         </CardHeader>)
+}
+
+const PokemonCard = ({ pokemon, onPress }: { pokemon: Pokemon, onPress: (() => void) }) => {
+    return (
+        <Card isPressable
+            className='p-2 w-1/4 hover:scale-105 hover:shadow-lg hover:shadow-gray-500 hover:cursor-pointer hover:text-blue-400'
+            onPress={onPress}>
+            <CardHeader>
+                <span className='text-2xl font-bold ml-auto mr-auto capitalize'>
+                    {pokemon.name}
+                </span>
+            </CardHeader>
+            <CardBody>
+                <div className='flex justify-center'>
+                    <Image src={pokemon.sprites.other.home.front_default ?? pokemon.sprites.other.dream_world.front_default ?? pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} isBlurred />
+                </div>
+            </CardBody>
+        </Card>)
 }
