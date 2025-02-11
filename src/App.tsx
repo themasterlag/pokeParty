@@ -1,8 +1,7 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import PokemonList from './pokemons/presentation/views/PokemonList.view'
-import PokemonDetail from './pokemons/presentation/views/PokemonDetail.view'
-import AddPokemon from './pokemons/presentation/views/Addpokemon.view'
+import PokemonList from './pokemons/ui.pokemonList.view'
+import PokemonDetail from './pokemons/ui.pokemonDetail.view'
 import { HeroUIProvider } from '@heroui/system'
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
         <Routes>
           <Route path="/" element={<PokemonList />} />
           <Route path="/pokemon/:id" element={<PokemonDetail />} />
-          <Route path="/add" element={<AddPokemon />} />
         </Routes>
       </BrowserRouter>
     </HeroUIProvider>
